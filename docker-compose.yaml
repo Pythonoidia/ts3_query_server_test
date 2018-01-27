@@ -1,0 +1,12 @@
+version: "2"
+
+services:
+  ts3:
+    build:
+      context: .
+    ports:
+        - "9987/udp"
+        - "10011"
+        - "30033"
+
+
