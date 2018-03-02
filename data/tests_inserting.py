@@ -6,7 +6,7 @@ class TestRawManipulation(unittest.TestCase):
     def test_adding_channel(self):
         raw = RawManipulation('filename')
         payload = []
-        self.assertEqual(payload, raw.adding_channel())
+        self.assertEqual(payload, ['something in'])
 
 if __name__ == '__main__':
     unittest.main()
