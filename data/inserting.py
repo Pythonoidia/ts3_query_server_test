@@ -4,7 +4,7 @@ class RawManipulation(object):
     def __init__(self, filename):
         self.filename = filename
 
-    def adding_channel(self, channel_name, channel_topic = "protected", channel_password, channel_number):
+    def adding_channel(self, channel_name, channel_password, channel_number, channel_topic='protected'):
         '''
         Method responsible for putting data into sql initialization file
         INPUT:
@@ -16,27 +16,28 @@ class RawManipulation(object):
             exact number channel will be stored locally in server files
         IMPORTANT: channel_number value must be unique
         '''
+        insert_string = "INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'{channel_property}','{value}');" + '\n'
         payload = []
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_name','{channel_name}');\n".format(channel_name=channel_name))
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_topic','{channel_topic}');\n".format(channel_topic=channel_topic))
-        payload.append("INSERT_INTO " + '"channel_properties"' + " VALUES(1,1,'channel_description','This is channel created by Python');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_password',{channel_password});".format(channel_password=channel_password))
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_codec','4');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_codec_quality','6');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_max_clients', '-1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_max_familyclients','-1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_order','0');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_permanent','1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_semi_permanent','0');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_password','1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_codec_latency_factor','0');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_codec_is_unencrypted','1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_security_salt','');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_maxclients_unlimited','1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_maxfamilyclients_unlimited','1');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_flag_maxfamilyclients_inherited','0');")
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_filepath','files/virtualserver_1/channel_{channel_number}');".format(channel_number))
-        payload.append("INSERT INTO " + '"channel_properties"' + " VALUES(1,1,'channel_name_phonetic','');")
+        payload.append(insert_string.format(channel_property='channel_name', value=channel_name))
+        payload.append(insert_string.format(channel_property='channel_topic', value=channel_topic))
+        payload.append(insert_string.format(channel_property='channel_description', value='This is channel created by Python'))
+        payload.append(insert_string.format(channel_property='channel_password',value=channel_password))
+        payload.append(insert_string.format(channel_property='channel_codec',value='4'))
+        payload.append(insert_string.format(channel_property='channel_codec_quality',value='6'))
+        payload.append(insert_string.format(channel_property='channel_max_clients',value='-1'))
+        payload.append(insert_string.format(channel_property='channel_max_familyclients',value='-1'))
+        payload.append(insert_string.format(channel_property='channel_order',value='0'))
+        payload.append(insert_string.format(channel_property='channel_flag_permanent',value='1'))
+        payload.append(insert_string.format(channel_property='channel_flag_semi_permanent',value='0'))
+        payload.append(insert_string.format(channel_property='channel_flag_password',value='1'))
+        payload.append(insert_string.format(channel_property='channel_codec_latency_factor',value='0'))
+        payload.append(insert_string.format(channel_property='channel_codec_is_unencrypted',value='1'))
+        payload.append(insert_string.format(channel_property='channel_security_salt',value=''))
+        payload.append(insert_string.format(channel_property='channel_flag_maxclients_unlimited',value='1'))
+        payload.append(insert_string.format(channel_property='channel_flag_maxfamilyclients_unlimited',value='1'))
+        payload.append(insert_string.format(channel_property='channel_flag_maxfamilyclients_inherited',value='0'))
+        payload.append(insert_string.format(channel_property='channel_filepath',value="files/virtualserver_1/channel_'{}'".format(channel_number)))
+        payload.append(insert_string.format(channel_property='channel_name_phonetic',value=''))
         return payload
 
     def file_writing(self, payload):
@@ -48,9 +49,7 @@ class RawManipulation(object):
 
 def main():
     raw = RawManipulation('ts3server.sqlitedb')
-    #raw = RawManipulation('newfile')
-    #print(raw.file_writing('bac'))
-    print(raw.adding_channel('bleble','blabla'))
+    raw.file_writing(raw.adding_channel('cool_cat', 'cat123', '31'))
 
 
 if __name__ == '__main__':
